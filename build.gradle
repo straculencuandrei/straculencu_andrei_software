@@ -26,8 +26,26 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 test {
     useJUnitPlatform()
+}
+
+tasks.register('copyBootstrap', Copy) {
+    onlyIf { file('node_modules/bootstrap/dist').exists() }
+    from('node_modules/bootstrap/dist/css') {
+        include 'bootstrap.min.css*'
+        into 'css'
+    }
+    from('node_modules/bootstrap/dist/js') {
+        include 'bootstrap.bundle.min.js*'
+        into 'js'
+    }
+    into 'src/main/webapp'
+}
+
+tasks.named('war') {
+    dependsOn 'copyBootstrap'
 }

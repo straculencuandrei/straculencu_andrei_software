@@ -14,12 +14,24 @@ public class HelloServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
+        response.setContentType("text/html;charset=UTF-8");
 
-        // Hello
+        String contextPath = request.getContextPath();
         PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>" + message + "</h1>");
+        out.println("<!DOCTYPE html>");
+        out.println("<html lang=\"en\"><head>");
+        out.println("<meta charset=\"UTF-8\">");
+        out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
+        out.println("<title>Hello Servlet - Parking Lot</title>");
+        out.println("<link rel=\"stylesheet\" href=\"" + contextPath + "/css/bootstrap.min.css\">");
+        out.println("</head><body>");
+        out.println("<div class=\"container py-5\">");
+        out.println("<div class=\"card shadow-sm\"><div class=\"card-body\">");
+        out.println("<h1 class=\"card-title text-primary\">" + message + "</h1>");
+        out.println("<p class=\"card-text\">Served with Bootstrap styling.</p>");
+        out.println("<a href=\"" + (contextPath.isEmpty() ? "/" : contextPath) + "\" class=\"btn btn-outline-secondary\">Back to Home</a>");
+        out.println("</div></div></div>");
+        out.println("<script src=\"" + contextPath + "/js/bootstrap.bundle.min.js\"></script>");
         out.println("</body></html>");
     }
 
